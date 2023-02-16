@@ -1,7 +1,7 @@
 import glob
 from pathlib import Path
 from fpdf import FPDF
-## commit: get files create pdf head n page, zen Sec25
+## commit: multiline cell and code refactor Sec26
 
 pdf=FPDF(orientation='P',unit='mm',format='A4')
 
@@ -14,17 +14,21 @@ for filename in filepaths:
     fname=Path(filename).stem # not dense, recomended by zen of Py!!
     topic=fname.capitalize() # not dense, recomended by zen of Py!!
     # print(topic)
-    with open(filename,'r') as file:
-        content=file.read()
+
     # add page
     pdf.add_page()
+
     # add heading
     pdf.set_font(family='Times',size=22,style='B')
     pdf.cell(w=0,h=22,txt=topic,ln=1)
-    # add body
-    # pdf.set_font(family='Times',size=14,style='B')
+
+    # get content of each file
+    with open(filename,'r') as file:
+        content=file.read()
+    
+    # add content to pdf body
     pdf.set_font(family='Times',size=14)
-    pdf.multi_cell(w=0,h=7,txt=content)
+    pdf.multi_cell(w=0,h=6,txt=content)
 
 # save pdf file
 pdf.output(f'pdfs/doc.pdf')
